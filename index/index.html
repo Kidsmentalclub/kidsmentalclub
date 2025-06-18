@@ -2,78 +2,251 @@
 <html lang="uk">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kids Mental Club</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kids Mental Club — школа ментальної арифметики</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      margin: 0; padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+      text-align: center;
+    }
+    header {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 1rem 0 0.5rem 0;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    p.description {
+      font-size: 1.2rem;
+      max-width: 400px;
+      margin: 0 auto 2rem auto;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    button {
+      background: #ffcc00;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: #333;
+      box-shadow: 0 4px 8px rgba(255,204,0,0.6);
+      transition: background 0.3s ease;
+      min-width: 160px;
+    }
+    button:hover {
+      background: #e6b800;
+    }
+    footer {
+      margin-top: auto;
+      font-size: 0.9rem;
+      color: #ddd;
+      padding: 12px 0;
+    }
+    /* Модальні вікна */
+    .modal-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    .modal-content {
+      background: #fff;
+      color: #333;
+      border-radius: 10px;
+      max-width: 450px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 1.5rem;
+      box-sizing: border-box;
+      position: relative;
+      box-shadow: 0 0 15px #ffcc00;
+    }
+    .modal-content h2 {
+      margin-top: 0;
+      color: #764ba2;
+    }
+    .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #764ba2;
+      cursor: pointer;
+    }
+    /* Галерея фото */
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .gallery img {
+      width: 120px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+    .gallery img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #ffcc00;
+    }
+    /* Попап фото */
+    .photo-popup {
+      position: fixed;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1100;
+    }
+    .photo-popup img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #ffcc00;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-b from-indigo-900 via-purple-800 to-pink-700 text-white font-sans">
+<body>
+  <header>Kids Mental Club</header>
+  <p class="description">Відкриваємо нові горизонти ментальної арифметики для дітей! Розвиваємо увагу, пам’ять та логіку через гру.</p>
+  
+  <div class="buttons">
+    <button id="btnEnroll">Записатися на заняття</button>
+    <button id="btnReviews">Відгуки</button>
+    <button id="btnPhotos">Фото</button>
+  </div>
 
-  <!-- Header -->
-  <header class="text-center py-6 px-4">
-    <h1 class="text-4xl md:text-5xl font-bold mb-2">🚀 Kids Mental Club</h1>
-    <p class="text-lg md:text-xl">Відкриваємо нові горизонти з ментальною арифметикою!</p>
-  </header>
+  <!-- Модальне вікно Запис -->
+  <div class="modal-bg" id="modalEnroll">
+    <div class="modal-content">
+      <span class="close-btn" id="closeEnroll">&times;</span>
+      <h2>Записатися на пробне заняття</h2>
+      <form id="enrollForm">
+        <label for="name">Ім'я дитини:</label><br />
+        <input type="text" id="name" name="name" required style="width: 100%; padding: 8px; margin: 6px 0 12px 0;"/>
 
-  <!-- Hero Section -->
-  <section class="text-center py-10 px-4 bg-indigo-800 rounded-3xl m-4 shadow-lg">
-    <h2 class="text-3xl font-semibold mb-4">🌟 Безкоштовне пробне заняття!</h2>
-    <p class="text-md mb-6">Дитина вчитиметься швидко рахувати, розвивати пам’ять і увагу — з цікавістю й захопленням!</p>
-    <a href="#signup" class="bg-yellow-400 text-indigo-900 font-bold px-6 py-3 rounded-full hover:bg-yellow-300 transition">
-      Записатися
-    </a>
-  </section>
+        <label for="parentPhone">Телефон батьків:</label><br />
+        <input type="tel" id="parentPhone" name="parentPhone" required pattern="[\d+\-\s]+" placeholder="+380 (XX) XXX-XX-XX" style="width: 100%; padding: 8px; margin: 6px 0 12px 0;" />
 
-  <!-- Що таке ментальна арифметика -->
-  <section class="px-6 py-10">
-    <h3 class="text-2xl font-bold text-center mb-6">Що таке ментальна арифметика?</h3>
-    <p class="max-w-3xl mx-auto text-center text-lg">Це методика розвитку інтелекту через уявну роботу з абакусом. Діти навчаються швидко рахувати, покращують пам’ять, концентрацію та логіку. Це не просто математика — це тренування мозку!</p>
-  </section>
+        <button type="submit" style="background:#764ba2; color:#fff; padding:10px 20px; border:none; border-radius:6px; cursor:pointer;">Надіслати</button>
+      </form>
+    </div>
+  </div>
 
-  <!-- Переваги -->
-  <section class="px-6 py-10 bg-purple-800 rounded-3xl m-4">
-    <h3 class="text-2xl font-bold text-center mb-6">🚀 Чому обирають нас?</h3>
-    <div class="grid gap-6 md:grid-cols-3">
-      <div class="bg-indigo-700 p-4 rounded-xl shadow-lg">
-        <h4 class="font-semibold text-xl mb-2">🎯 Розвиток мозку</h4>
-        <p>Тренування обох півкуль мозку через уявні обчислення.</p>
-      </div>
-      <div class="bg-indigo-700 p-4 rounded-xl shadow-lg">
-        <h4 class="font-semibold text-xl mb-2">🧒 Ігровий формат</h4>
-        <p>Діти вчаться через гру, тож не втомлюються, а захоплюються.</p>
-      </div>
-      <div class="bg-indigo-700 p-4 rounded-xl shadow-lg">
-        <h4 class="font-semibold text-xl mb-2">👩‍🏫 Професійні викладачі</h4>
-        <p>З любов’ю до дітей та досвідом у ментальній арифметиці.</p>
+  <!-- Модальне вікно Відгуки -->
+  <div class="modal-bg" id="modalReviews">
+    <div class="modal-content">
+      <span class="close-btn" id="closeReviews">&times;</span>
+      <h2>Відгуки наших учнів і батьків</h2>
+      <p><strong>Олена К.</strong>: "Дитина почала швидко рахувати і зосереджуватися. Дуже задоволені!"</p>
+      <p><strong>Ігор М.</strong>: "Класна методика, що дійсно працює." </p>
+      <p><strong>Марія С.</strong>: "Дякуємо викладачам за індивідуальний підхід!"</p>
+    </div>
+  </div>
+
+  <!-- Модальне вікно Фото -->
+  <div class="modal-bg" id="modalPhotos">
+    <div class="modal-content" style="max-width: 90vw; max-height: 90vh; padding: 0; background: transparent; box-shadow: none;">
+      <span class="close-btn" id="closePhotos" style="color:#ffcc00;">&times;</span>
+      <div class="gallery">
+        <img src="https://i.ibb.co/JtRf1Mz/photo1.jpg" alt="Фото заняття 1" />
+        <img src="https://i.ibb.co/9wT5F4H/photo2.jpg" alt="Фото заняття 2" />
+        <img src="https://i.ibb.co/7YG3yYP/photo3.jpg" alt="Фото заняття 3" />
+        <img src="https://i.ibb.co/5kY6BqK/photo4.jpg" alt="Фото заняття 4" />
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Відгуки -->
-  <section class="px-6 py-10">
-    <h3 class="text-2xl font-bold text-center mb-6">🗣️ Відгуки батьків</h3>
-    <div class="space-y-4 max-w-2xl mx-auto">
-      <blockquote class="bg-purple-700 p-4 rounded-xl italic">"Моя донька стала швидше рахувати й краще запам'ятовувати! Рекомендую!" — Ольга</blockquote>
-      <blockquote class="bg-purple-700 p-4 rounded-xl italic">"Син став більш уважний і впевнений у собі. І дуже любить заняття!" — Андрій</blockquote>
-    </div>
-  </section>
+  <!-- Попап для збільшення фото -->
+  <div class="photo-popup" id="photoPopup">
+    <img src="" alt="Фото збільшене" />
+  </div>
 
-  <!-- Форма запису -->
-  <section id="signup" class="text-center px-6 py-10 bg-indigo-800 rounded-3xl m-4 shadow-xl">
-    <h3 class="text-2xl font-bold mb-4">📋 Запис на пробне заняття</h3>
-    <form class="space-y-4 max-w-md mx-auto">
-      <input type="text" placeholder="Ім’я дитини" class="w-full px-4 py-2 rounded-xl text-black" required />
-      <input type="text" placeholder="Вік дитини" class="w-full px-4 py-2 rounded-xl text-black" required />
-      <input type="tel" placeholder="Телефон батьків" class="w-full px-4 py-2 rounded-xl text-black" required />
-      <button type="submit" class="bg-yellow-400 text-indigo-900 font-bold px-6 py-3 rounded-full hover:bg-yellow-300 transition">
-        Надіслати
-      </button>
-    </form>
-  </section>
+  <footer>© 2025 Kids Mental Club. Всі права захищені.</footer>
 
-  <!-- Footer -->
-  <footer class="text-center text-sm py-6 text-purple-200">
-    © 2025 Kids Mental Club | Всі права захищено
-  </footer>
+  <script>
+    // Кнопки відкриття модалок
+    const btnEnroll = document.getElementById('btnEnroll');
+    const btnReviews = document.getElementById('btnReviews');
+    const btnPhotos = document.getElementById('btnPhotos');
 
+    const modalEnroll = document.getElementById('modalEnroll');
+    const modalReviews = document.getElementById('modalReviews');
+    const modalPhotos = document.getElementById('modalPhotos');
+
+    const closeEnroll = document.getElementById('closeEnroll');
+    const closeReviews = document.getElementById('closeReviews');
+    const closePhotos = document.getElementById('closePhotos');
+
+    btnEnroll.addEventListener('click', () => modalEnroll.style.display = 'flex');
+    btnReviews.addEventListener('click', () => modalReviews.style.display = 'flex');
+    btnPhotos.addEventListener('click', () => modalPhotos.style.display = 'flex');
+
+    closeEnroll.addEventListener('click', () => modalEnroll.style.display = 'none');
+    closeReviews.addEventListener('click', () => modalReviews.style.display = 'none');
+    closePhotos.addEventListener('click', () => modalPhotos.style.display = 'none');
+
+    // Закрити при кліку поза модальним вікном
+    window.addEventListener('click', e => {
+      if(e.target === modalEnroll) modalEnroll.style.display = 'none';
+      if(e.target === modalReviews) modalReviews.style.display = 'none';
+      if(e.target === modalPhotos) modalPhotos.style.display = 'none';
+      if(e.target === photoPopup) closePhotoPopup();
+    });
+
+    // Обробка форми запису
+    document.getElementById('enrollForm').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Дякуємо! Ваш запис отримано. Ми звʼяжемося з вами найближчим часом.');
+      modalEnroll.style.display = 'none';
+      e.target.reset();
+    });
+
+    // Галерея фото - збільшення при кліку
+    const galleryImages = modalPhotos.querySelectorAll('.gallery img');
+    const photoPopup = document.getElementById('photoPopup');
+    const popupImg = photoPopup.querySelector('img');
+
+    galleryImages.forEach(img => {
+      img.addEventListener('click', () => {
+        popupImg.src = img.src;
+        photoPopup.style.display = 'flex';
+      });
+    });
+
+    function closePhotoPopup() {
+      photoPopup.style.display = 'none';
+      popupImg.src = '';
+    }
+
+    photoPopup.addEventListener('click', closePhotoPopup);
+  </script>
 </body>
 </html>
