@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kids Mental Club</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gradient-to-b from-blue-100 to-indigo-200 font-sans">
+  <header class="text-center py-10 bg-indigo-500 text-white">
+    <h1 class="text-4xl font-bold">Kids Mental Club</h1>
+    <p class="text-lg mt-2">Відкриваємо нові горизонти разом з ментальною арифметикою!</p>
+  </header>
+
+  <section class="max-w-3xl mx-auto p-6">
+    <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Що таке ментальна арифметика?</h2>
+    <p class="text-gray-800 mb-6">
+      Ментальна арифметика — це розвиток мозку за допомогою усного рахунку. Діти вчаться швидко обчислювати в уяві, тренуючи пам’ять, увагу та логіку.
+    </p>
+    <a href="#signup" class="bg-indigo-600 text-white px-6 py-3 rounded hover:bg-indigo-700">Записатись на пробне заняття</a>
+  </section>
+
+  <section class="bg-white py-8" id="reviews">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Відгуки батьків</h2>
+      <div class="space-y-4">
+        <div class="bg-indigo-50 p-4 rounded shadow">
+          <p>👩‍🦰 "Моя донька стала краще концентруватися! Дуже задоволені."</p>
+          <span class="text-sm text-gray-600">— Наталія</span>
+        </div>
+        <div class="bg-indigo-50 p-4 rounded shadow">
+          <p>👨‍🦱 "Дитині цікаво на заняттях, і вже сам рахує приклади швидше за мене!"</p>
+          <span class="text-sm text-gray-600">— Андрій</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-10 bg-indigo-100" id="signup">
+    <div class="max-w-md mx-auto text-center">
+      <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Записатися</h2>
+      <p class="mb-4">Залишіть заявку, і ми зв’яжемось з вами для пробного заняття.</p>
+      <form id="signupForm" class="space-y-4">
+        <input type="text" id="name" placeholder="Ім’я" class="w-full px-4 py-2 rounded border" required />
+        <input type="tel" id="phone" placeholder="Телефон" class="w-full px-4 py-2 rounded border" required />
+        <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700">Відправити</button>
+      </form>
+      <p id="statusMessage" class="mt-4 text-green-700 font-semibold"></p>
+    </div>
+  </section>
+
+  <footer class="text-center text-sm text-gray-600 py-6">
+    © 2025 Kids Mental Club. Усі права захищено.
+  </footer>
+
+  <script>
+    const token = '7257073794:AAE8hvAbegOCfbZoToXmGE43XeBTe5G1F64'; // Твій токен
+    const chatId = '274415622'; // Твій Chat ID
+
+    const form = document.getElementById('signupForm');
+    const statusMessage = document.getElementById('statusMessage');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+
+      if (!name || !phone) {
+        statusMessage.textContent = 'Будь ласка, заповніть всі поля.';
+        statusMessage.style.color = 'red';
+        return;
+      }
+
+      const message = `📝 Нова заявка з сайту Kids Mental Club:\nІм’я: ${name}\nТелефон: ${phone}`;
+
+      try {
+        const response = await fetch(
+          `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`
+        );
+
+        const data = await response.json();
+
+        if (data.ok) {
+          statusMessage.textContent = 'Дякуємо! Ваша заявка надіслана.';
+          statusMessage.style.color = 'green';
+          form.reset();
+        } else {
+          throw new Error('Помилка надсилання заявки');
+        }
+      } catch (error) {
+        statusMessage.textContent = 'Сталася помилка. Спробуйте пізніше.';
+        statusMessage.style.color = 'red';
+      }
+    });
+  </script>
+</body>
+</html>
